@@ -42,8 +42,8 @@ services:
        test: ["CMD-SHELL", "pg_isready -U admin"]
        interval: 10s
        retries: 5
-  volumes:
-    log:    
+volumes:
+  log:    
 #“I mount the SQL file to initialize DB automatically and use a healthcheck to make sure the DB is ready before backend connects.”
 
 
