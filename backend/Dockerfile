@@ -13,7 +13,7 @@ WORKDIR /app-h
 RUN addgroup -g 1000 Harigroup \
     && adduser -u 1000 -S Hariuser -G Harigroup \
     && chown -R Hariuser:Harigroup /app-h
-USER Hariuser
+#USER Hariuser
 #copy built app from the builder
 COPY --from=builder /app /app-h
 EXPOSE 5000
