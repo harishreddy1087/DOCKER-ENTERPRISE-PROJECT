@@ -1,0 +1,77 @@
+
+1️⃣ Start with the Project Overview
+You can say something like:
+
+“I built a multi-container Docker project with frontend, backend, and PostgreSQL database to demonstrate end-to-end containerization in a production-ready setup.
+The goal was to create a scalable, maintainable, and secure environment that could run anywhere, including EC2.”
+
+Key points to highlight:
+
+Multi-service architecture
+
+Docker Compose orchestration
+
+Use of healthchecks and volumes for reliability
+
+
+
+2️⃣ Describe the Architecture
+
+Refer to your diagram:
+
+“Here’s the architecture:
+
+Frontend (React app) runs in its container, exposed on port 8080.
+
+Backend (Node.js API) runs in a separate container on port 5000.
+
+PostgreSQL database runs in its own container, exposed on 5432.
+
+Persistent logs are handled via a Docker-managed named volume, so logs survive container restarts.
+
+The frontend waits for backend health checks to avoid 404 errors.”
+
+
+
+3️⃣ Talk About the Challenges & Solutions
+
+“While building this, I encountered real-world challenges:
+
+Permission errors (EACCES) writing logs:
+
+The backend was running as a non-root user inside the container.
+
+Initially, we tried a bind-mounted host folder for logs, but Node.js couldn’t write because of UID/GID mismatches.
+
+Solution: We switched to a Docker-managed named volume and ensured proper ownership inside the container.
+
+Alpine user creation issues:
+
+Hardcoding UID 1000 failed because Alpine already uses that UID.
+
+Solution: Created a system user with automatic UID, avoiding conflicts.
+
+Service startup order:
+
+Frontend sometimes started before backend was ready.
+
+Solution: Used depends_on with healthchecks to orchestrate startup reliably.”
+
+
+4️⃣ Highlight Enterprise Practices
+
+Interviewers like hearing real-world production practices, for example:
+
+Non-root containers for security
+
+Multi-stage Dockerfile for smaller, production-ready images
+
+Healthchecks and depends_on for reliable startup
+
+Named Docker volumes for persistent logs
+
+Port mappings and environment variables via .env file
+
+You can phrase it as:
+
+“This project is designed like a real enterprise setup: secure, reliable, and maintainable.”
