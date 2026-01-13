@@ -36,4 +36,5 @@ Runs the container in the background so you can keep using your terminal.
 -p 8080:80	
 Port Mapping.	
 Forwards traffic from your computer's port 8080 to the container's port 80.
-
+**** you can only do the read,write,execute for the /tmp folder not for other folders. this is the best security
+6. 
