@@ -1,0 +1,56 @@
+Version: "3.9"
+#3.9 is latest stable version compatible with modern Docker features like healthchecks, volumes, and networks
+services:
+  frontend:
+  #build: ./frontend → Dockerfile location to build the frontend image
+    build: ./frontend
+    ports: 
+      - "8080:80"
+      #depends_on → Ensures the backend container is healthy before frontend starts
+    depends_on:
+      backend:
+        condition: service_healthy
+        #Interview point: “I use depends_on with service_healthy to control startup order and avoid 404 errors if backend isn’t ready.”
+
+  backend:
+  #build: ./backend → Builds backend Docker image from backend/Dockerfile
+    build: ./backend
+    env_file: .env
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", ""http://localhost:5000/health"]
+      interval: 10s
+      retries: 5
+      #Interview point:“I use health checks for reliable container orchestration, and volumes to persist logs even if containers are recreated.”
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: companydb
+      #volumes: → Mounts init.sql to container to auto-create table/data on startup
+    volumes:
+      - .db/init.sql://docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+       test: ["CMD-SHELL", "pg_isready -U admin"]
+       interval: 10s
+       retries: 5
+#“I mount the SQL file to initialize DB automatically and use a healthcheck to make sure the DB is ready before backend connects.”
+
+
+# 💡 Interview Tip
+
+# If asked:
+
+# “Why not just run docker run for each container?”
+
+# You can say:
+
+# “Using docker-compose.yml I can spin up all 3 services with a single command, manage dependencies, healthchecks, logging, and environment configs — exactly like a production microservices setup.”

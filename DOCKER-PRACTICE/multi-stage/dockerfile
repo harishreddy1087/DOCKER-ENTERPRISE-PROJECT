@@ -1,0 +1,35 @@
+# our goal is to use a Multi-Stage Build to compile a Go app and then move it to a tiny "distroless" or "alpine" image.
+# Instructions:
+# Stage 1 (The Builder): * Use golang:1.21-alpine as the base.
+# Name this stage builder (using AS builder).
+# Set WORKDIR /app.
+# Copy your code and run go build -o myapp main.go.
+# Stage 2 (The Runner): * Use a fresh alpine:latest base.
+# Set WORKDIR /root/.
+# The Pro Move: Use COPY --from=builder to grab only the myapp file from the first stage.
+# Set the CMD to run ./myapp.
+
+FROM golang:1.21-alpine AS builder
+WORKDIR /app
+COPY . .
+RUN go build -o myapp main.go
+
+FROM alpine:latest
+WORKDIR /root/
+COPY --from=builder /app/myapp .
+CMD ["./myapp"]
+
+#output
+# ubuntu@ip-172-31-25-105:~/DOCKER-PRACTICE/multi-stage$ docker images
+# REPOSITORY   TAG           IMAGE ID       CREATED          SIZE
+# <none>       <none>        73dde70fdab5   35 seconds ago   249MB
+# hari         latest        9bc21bba0e8a   35 seconds ago   10.2MB
+# alpine       latest        e7b39c54cdec   3 weeks ago      8.44MB
+# golang       1.21-alpine   c2321c7cf721   17 months ago    222MB
+# ubuntu@ip-172-31-25-105:~/DOCKER-PRACTICE/multi-stage$
+
+# FINAL output
+
+# ubuntu@ip-172-31-25-105:~/DOCKER-PRACTICE/multi-stage$ docker run hari
+# Hello! This is a secure, multi-stage Go binary running on Alpine!
+# ubuntu@ip-172-31-25-105:~/DOCKER-PRACTICE/multi-stage$

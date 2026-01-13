@@ -1,0 +1,22 @@
+# The "Files & Folders" Masterclass
+
+# Write a Dockerfile that performs the following:
+# Base Image: Use nginx:alpine.
+# Task A: Copy a local file called index.html to /usr/share/nginx/html/.
+# Task B: Use the correct instruction to take a local compressed file assets.tar.gz and have Docker automatically unpack it into /usr/share/nginx/html/assets/.
+# Task C: Use the correct instruction to download a file from https://example.com/robots.txt directly into the /usr/share/nginx/html/ directory.
+# Task D: Set the WORKDIR to the nginx html folder.
+
+FROM nginx:alpine
+LABEL maintainer ="Harish reddy"
+#Task A: Simple Copy (Best practice for local files)
+COPY index.html /usr/share/nginx/html/
+# Task B: Auto-extraction (ADD magic)
+# Note: Docker will create the 'assets' folder if it doesn't exist
+ADD assets.tar.gz /usr/share/nginx/html/assets/
+# Task C: Remote Download
+ADD https://google.com/robots.txt /usr/share/nginx/html/
+#Task D: Set the directory (Fixed: removed index.html from path)
+WORKDIR /usr/share/nginx/html/
+#Nginx alpine image already has a default CMD
+CMD ["nginx", "-g", "daemon off;"]

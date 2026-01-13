@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Management</title>
+</head>
+<body>
+    <h1>Employee Management System</h1>
+    <button onclick="loadEmployees()">Load Employees</button>
+    <ul id="employee-list"></ul>
+
+    <script>
+        async function loadEmployees() {
+            try {
+                const response = await fetch("http://localhost:5000/employees");
+                const data = await response.json();
+                const list = document.getElementById("employee-list");
+                list.innerHTML = data.map(emp => `<li>${emp.name}</li>`).join('');
+            } catch (err) {
+                console.error(err);
+                alert("Failed to load employees");
+            }
+        }
+    </script>
+</body>
+</html>

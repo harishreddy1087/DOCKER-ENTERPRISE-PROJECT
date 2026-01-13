@@ -1,0 +1,4 @@
+FROM python:3.9-slim
+#copy the local hello world script to the container
+copy app.py /app.py
+CMD ["python", "/app/py"]

@@ -1,0 +1,22 @@
+# The Goal: Build a Go app and keep the final image under 20MB.
+
+# Requirements:
+# Stage 1 (The Builder): * Use golang:1.21-alpine.
+# Set working directory to /app.
+# Copy everything from your current folder.
+# Run go build -o my-app .
+# Stage 2 (The Runner):
+# Use the tiny alpine:latest image.
+# Copy the built file my-app from the first stage.
+# Set the command to run the binary.
+# Show me your Dockerfile for Level 1!
+
+
+FROM golang:1.21-alpine AS builder
+WORKDIR /app
+COPY . .
+RUN go build -o my-app
+
+FROM alpine:latest
+COPY --from=builder /app/my-app .
+CMD ["./my-app"]

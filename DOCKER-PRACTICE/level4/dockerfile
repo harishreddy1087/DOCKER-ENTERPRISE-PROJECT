@@ -1,0 +1,15 @@
+#Secure the container by switching from root to a specific USER.
+
+# 1. The Setup: Most official images (like node) come with a pre-created user for safety. In the node image, that user is named node.
+# 2. Your Goal: Write a Dockerfile that:
+# Starts from node:18-alpine.
+# Uses /home/node/app as the WORKDIR (this is the standard safe path for the node user).
+# The Pro Step: Copies your code while simultaneously giving ownership to the node user.
+# Switches to the node user before the app starts.
+
+
+FROM node:18-alpine
+WORKDIR /home/node/app
+COPY --chown=node:node server.js .
+USER node
+CMD ["whoami"]

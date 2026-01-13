@@ -1,0 +1,18 @@
+FROM alpine:latest
+# Alpine uses 'apk' instead of 'dnf'
+RUN apk add --no-cache nginx
+#RUN	During Build time	Installs software (like apk add nginx).
+#CMD	During Runtime	The command the container executes when you run docker run
+CMD ["nginx", "-g", "daemon off;"]
+
+# to push the image
+#[ ec2-user@ip-172-31-30-177 ~/DOCKER-PRACTICE/RUN ]$ docker login -u harishreddy4747
+#at password enter the tocken which expires 90 days
+#[ ec2-user@ip-172-31-30-177 ~/DOCKER-PRACTICE/RUN ]$ docker push harishreddy4747/nginx:v1
+# image name and dicker hub name must be same
+#The push refers to repository [docker.io/harishreddy4747/nginx]
+#1074353eec0d: Pushed
+#eeefd3a23b38: Pushed
+#3d95e285625e: Pushed
+#v1: digest: sha256:cd394cd01eebc5413e730ca812a596db63e26c10c130ca81802435279186343b size: 855
+

@@ -1,0 +1,12 @@
+# Dependency folders
+node_modules/
+
+# Git history (can be massive)
+.git/
+
+# Secrets (NEVER include these in an image)
+.env
+
+# Docker-related files
+Dockerfile
+.dockerignore
