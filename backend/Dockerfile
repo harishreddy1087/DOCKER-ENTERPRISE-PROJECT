@@ -10,8 +10,9 @@ COPY . .
 FROM node:18-alpine
 WORKDIR /app-h
 # creating the non-root user
-RUN addgroup -g 1000 Harigroup \
-    && adduser -u 1000 -S Hariuser -G Harigroup \
+RUN addgroup -S Harigroup \
+    && adduser -S Hariuser -G Harigroup \
+    && mkdir -p /app-h/logs \
     && chown -R Hariuser:Harigroup /app-h
 USER Hariuser
 #copy built app from the builder
