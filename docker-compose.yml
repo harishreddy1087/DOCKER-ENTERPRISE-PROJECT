@@ -8,8 +8,8 @@ services:
       - "8080:80"
       #depends_on → Ensures the backend container is healthy before frontend starts
     depends_on:
-      backend:
-        condition: service_healthy
+      - backend
+        #condition: service_healthy
         #Interview point: “I use depends_on with service_healthy to control startup order and avoid 404 errors if backend isn’t ready.”
 
   backend:
@@ -24,7 +24,7 @@ services:
       db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:5000/health"]
+      test: "wget -qO- http://localhost:5000/health || exit 1"
       interval: 10s
       retries: 5
       #Interview point:“I use health checks for reliable container orchestration, and volumes to persist logs even if containers are recreated.”
@@ -43,7 +43,7 @@ services:
        interval: 10s
        retries: 5
 volumes:
-  log:    
+  logs:    
 #“I mount the SQL file to initialize DB automatically and use a healthcheck to make sure the DB is ready before backend connects.”
 
 
