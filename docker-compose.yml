@@ -19,7 +19,7 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - /logs:/app-h/logs
+      - backend_logs:/app-h/logs
     depends_on:
       db:
         condition: service_healthy
@@ -43,7 +43,7 @@ services:
        interval: 10s
        retries: 5
 volumes:
-  logs:    
+  backend_logs:    
 #“I mount the SQL file to initialize DB automatically and use a healthcheck to make sure the DB is ready before backend connects.”
 
 
