@@ -27,8 +27,6 @@ services:
       test: ["CMD", "wget", "-qO-", "http://localhost:5000/health"]
       interval: 10s
       retries: 5
-  volumes:
-    log:
       #Interview point:“I use health checks for reliable container orchestration, and volumes to persist logs even if containers are recreated.”
 
   db:
@@ -44,6 +42,8 @@ services:
        test: ["CMD-SHELL", "pg_isready -U admin"]
        interval: 10s
        retries: 5
+  volumes:
+    log:    
 #“I mount the SQL file to initialize DB automatically and use a healthcheck to make sure the DB is ready before backend connects.”
 
 
