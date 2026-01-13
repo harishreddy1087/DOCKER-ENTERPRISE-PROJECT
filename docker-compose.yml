@@ -19,7 +19,7 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./logs:/app-h/logs
+      - /logs:/app-h/logs
     depends_on:
       db:
         condition: service_healthy
@@ -27,6 +27,8 @@ services:
       test: ["CMD", "wget", "-qO-", "http://localhost:5000/health"]
       interval: 10s
       retries: 5
+  volumes:
+    log:
       #Interview point:“I use health checks for reliable container orchestration, and volumes to persist logs even if containers are recreated.”
 
   db:
