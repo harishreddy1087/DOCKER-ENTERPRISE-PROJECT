@@ -24,7 +24,7 @@ services:
       db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "wget", "-qO-", ""http://localhost:5000/health"]
+      test: ["CMD", "wget", "-qO-", "http://localhost:5000/health"]
       interval: 10s
       retries: 5
       #Interview point:“I use health checks for reliable container orchestration, and volumes to persist logs even if containers are recreated.”
