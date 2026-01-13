@@ -3,3 +3,37 @@ ANS: docker build --no-cache -t <name> .
 
 2. i want to keep the date as TAG for the image build write the docker command
 ANS: docker build -t <imagename:release-$(date +%Y-%M-%D)> .
+check with docker images
+
+3. What is the command to restrict the usage of the memory and cpus while creating  the container
+ANS: docker run -d --memory='512m'--cpus='1.5' <imagename:tag>
+
+4. what is the command to run the container with non-root user
+ANS: docker run -d -u userid:groupid image:tag
+* By default the docker caintainer is running with root user.
+
+5. what is the command to launch the container with readonly access.
+ANS: docker run --read-only -v /tmp --tmpfs /tmp -d -p 8080:80 imagename:tag
+
+Flag	Function	Why use it?
+
+--read-only	
+Mounts the container's root filesystem as read-only.	
+Prevents attackers from modifying system files or installing malware inside the container.
+
+-v /tmp	
+Creates a Volume for /tmp.	
+If the app needs to write logs or cache, it needs a place to write since the rest of the disk is locked.
+
+--tmpfs /tmp	
+Mounts /tmp into RAM (Host Memory).
+Files in /tmp are never written to the disk and vanish when the container stops. This is faster and more secure.
+
+-d	
+Detached mode.	
+Runs the container in the background so you can keep using your terminal.
+
+-p 8080:80	
+Port Mapping.	
+Forwards traffic from your computer's port 8080 to the container's port 80.
+
