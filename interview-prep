@@ -1,0 +1,5 @@
+1. what is the command to avoid the cache while building the docker image.
+ANS: docker build --no-cache -t <name> .
+
+2. i want to keep the date as TAG for the image build write the docker command
+ANS: docker build -t <imagename:release-$(date +%Y-%M-%D)> .
